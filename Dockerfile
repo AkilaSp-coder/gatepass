@@ -2,8 +2,11 @@ FROM eclipse-temurin:17
 
 WORKDIR /app
 
-COPY target/gatepass-0.0.1-SNAPSHOT.jar app.jar
+COPY . .
+
+RUN chmod +x mvnw
+RUN ./mvnw clean package -DskipTests
 
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","app.jar"]
+CMD ["java","-jar","target/gatepass-0.0.1-SNAPSHOT.jar"]
