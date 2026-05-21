@@ -1,18 +1,179 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>Gate Pass Login</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            height:100vh;
+
+            font-family:Arial,sans-serif;
+
+            background-image:url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3');
+
+            background-size:cover;
+
+            background-position:center;
+        }
+
+        .container{
+
+            width:350px;
+
+            background:rgba(255,255,255,0.2);
+
+            backdrop-filter:blur(12px);
+
+            padding:35px;
+
+            border-radius:20px;
+
+            box-shadow:0 8px 25px rgba(0,0,0,0.3);
+
+            text-align:center;
+        }
+
+        .logo{
+
+            width:70px;
+
+            margin-bottom:15px;
+        }
+
+        h2{
+
+            color:white;
+
+            margin-bottom:25px;
+
+            font-size:32px;
+        }
+
+        input{
+
+            width:100%;
+
+            padding:14px;
+
+            margin-top:15px;
+
+            border:none;
+
+            border-radius:8px;
+
+            outline:none;
+
+            font-size:16px;
+
+            background:rgba(255,255,255,0.9);
+        }
+
+        button{
+
+            width:100%;
+
+            padding:14px;
+
+            margin-top:20px;
+
+            border:none;
+
+            border-radius:8px;
+
+            background:linear-gradient(45deg,#3498db,#6dd5fa);
+
+            color:white;
+
+            font-size:18px;
+
+            cursor:pointer;
+
+            transition:0.3s;
+        }
+
+        button:hover{
+
+            transform:scale(1.03);
+        }
+
+        .footer{
+
+            margin-top:20px;
+
+            color:white;
+
+            font-size:14px;
+        }
+
+        @media(max-width:768px){
+
+            .container{
+
+                width:90%;
+            }
+
+            h2{
+
+                font-size:26px;
+            }
+        }
+
+    </style>
+
 </head>
+
 <body>
 
-<h2>Gate Pass Login</h2>
+<div class="container">
 
-<form action="/home">
-    <input type="text" placeholder="Username"><br><br>
-    <input type="password" placeholder="Password"><br><br>
+    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+         class="logo">
 
-    <button type="submit">Login</button>
-</form>
+    <h2>Gate Pass Login</h2>
+
+    <form action="/home">
+
+        <input type="text"
+               placeholder="Username"
+               required>
+
+        <input type="password"
+               placeholder="Password"
+               required>
+
+        <button type="submit">
+
+            Login
+
+        </button>
+
+    </form>
+
+    <div class="footer">
+
+        Smart Visitor Management System
+
+    </div>
+
+</div>
 
 </body>
 </html>

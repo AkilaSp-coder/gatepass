@@ -95,12 +95,14 @@ public class LoginController {
         try {
 
             String acceptUrl =
-                    "http://localhost:8081/accept/"
-                            + visitor.getId();
+        "https://gatepass-cz99.onrender.com/accept/"
+        + visitor.getId();
 
-            String rejectUrl =
-                    "http://localhost:8081/reject/"
-                            + visitor.getId();
+String rejectUrl =
+        "https://gatepass-cz99.onrender.com/reject/"
+        + visitor.getId();
+
+            
 
             MimeMessage message =
                     mailSender.createMimeMessage();
@@ -172,7 +174,14 @@ public class LoginController {
 
             helper.setText(html, true);
 
-            mailSender.send(message);
+            try {
+
+    mailSender.send(message);
+
+} catch (Exception e) {
+
+    e.printStackTrace();
+}
 
         } catch (MessagingException e) {
 
@@ -183,7 +192,7 @@ public class LoginController {
                 "msg",
                 "Visitor Added Successfully");
 
-        return "success";
+        return "redirect:/home?success=true";
     }
 
     @GetMapping("/visitors")
@@ -200,32 +209,80 @@ public class LoginController {
     }
 
     @GetMapping("/accept/{id}")
-    public String accept(@PathVariable Long id) {
+public String accept(@PathVariable Long id) {
 
-        Visitor visitor = repo.findById(id).get();
+    Visitor visitor =
+            repo.findById(id)
+            .orElseThrow(() ->
+            new RuntimeException("Visitor Not Found"));
 
-        visitor.setStatus("APPROVED");
+    visitor.setStatus("APPROVED");
 
-        visitor.setExitTime(
-                java.time.LocalTime.now().toString());
+    repo.save(visitor);
 
-        repo.save(visitor);
+    try {
 
-        return "redirect:/visitors?success=approved";
+        MimeMessage message =
+                mailSender.createMimeMessage();
+
+        MimeMessageHelper helper =
+                new MimeMessageHelper(message, true);
+
+        helper.setTo(visitor.getEmail());
+
+        helper.setSubject("Gate Pass Approved");
+
+        helper.setText(
+                "<h2>Gate Pass Approved</h2>",
+                true);
+
+        mailSender.send(message);
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
     }
+
+    return "redirect:/visitors";
+}
 
     @GetMapping("/reject/{id}")
-    public String reject(@PathVariable Long id) {
+public String reject(@PathVariable Long id) {
 
-        Visitor visitor = repo.findById(id).get();
+    Visitor visitor =
+            repo.findById(id)
+            .orElseThrow(() ->
+            new RuntimeException("Visitor Not Found"));
 
-        visitor.setStatus("REJECTED");
+    visitor.setStatus("REJECTED");
 
-        repo.save(visitor);
+    repo.save(visitor);
 
-        return "redirect:/visitors?success=rejected";
+    try {
+
+        MimeMessage message =
+                mailSender.createMimeMessage();
+
+        MimeMessageHelper helper =
+                new MimeMessageHelper(message, true);
+
+        helper.setTo(visitor.getEmail());
+
+        helper.setSubject("Gate Pass Rejected");
+
+        helper.setText(
+                "<h2>Gate Pass Rejected</h2>",
+                true);
+
+        mailSender.send(message);
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
     }
 
+    return "redirect:/visitors";
+}
     @GetMapping("/admin")
     public String adminPage() {
 
